@@ -1,0 +1,33 @@
+.genres_content {
+	padding: 10px 0;
+}
+.genres_chip {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+	padding: 6px 12px;
+	gap: 10px;
+	background: #222222;
+	border-radius: 4px;
+	max-width: fit-content;
+	cursor: pointer;
+}
+
+.genres_chip:hover,
+.genres_chip.active {
+	background-color: #f0283c;
+}
+
+.genres_content {
+	display: flex;
+	align-items: center;
+	gap: 15px;
+	flex-wrap: wrap;
+}
+
+.genres_name {
+	font-size: 16px;
+	line-height: 16px;
+	font-weight: 400;
+}
