@@ -5,7 +5,15 @@ import react from "@vitejs/plugin-react";
 export default defineConfig({
 	plugins: [
 		react({
-			include: /\.(tsx?|jsx?)$/,
+			include: "**/*.{tsx,ts,jsx,js}",
 		}),
 	],
+	server: {
+		watch: {
+			usePolling: true,
+		},
+		host: true,
+		port: 3000,
+		strictPort: true,
+	},
 });

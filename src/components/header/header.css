@@ -1,0 +1,49 @@
+.header {
+	background-image: linear-gradient(
+		180deg,
+		rgba(0, 0, 0, 0.7) 10%,
+		transparent
+	);
+	position: fixed;
+	width: 100%;
+	top: 0;
+	left: 0;
+	z-index: 1;
+}
+
+.header .wrapper {
+	padding: 20px 10px;
+}
+
+.header_content {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.search_bar_wrapper {
+	position: relative;
+}
+
+.search_bar_input {
+	cursor: pointer;
+	display: flex;
+	padding: 3px 10px;
+	min-height: 20px;
+	border-radius: 5px;
+	border: none;
+	outline: 0;
+	transition: all 0.5s;
+}
+
+.search_icon {
+	cursor: pointer;
+	position: absolute;
+	top: 0px;
+	background-color: #f0283c;
+	width: 16px;
+	height: 18px;
+	border-radius: 0px 5px 5px 0;
+	right: -2px;
+	padding: 4px 6px;
+}

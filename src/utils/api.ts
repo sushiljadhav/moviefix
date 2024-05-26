@@ -5,10 +5,32 @@ const APP_KEY = import.meta.env.VITE_APP_API;
 
 const headers = {};
 
+export enum BackdropSize {
+	W300 = "w300",
+	W780 = "w780",
+	W1280 = "w1280",
+	Original = "original",
+}
+
+export interface IImageConfig {
+	base_url: string;
+	secure_base_url: string;
+	backdrop_sizes: string[];
+	logo_sizes: string[];
+	poster_sizes: string[];
+	profile_sizes: string[];
+	still_sizes: string[];
+}
+
+export interface IConfiguration {
+	images: IImageConfig[];
+	change_keys: string[];
+}
+
 export interface IMovieDetail {
 	adult: boolean;
 	backdrop_path: string;
-	genre_ids: [];
+	genre_ids: number[];
 	id: number;
 	original_language: string;
 	original_title: string;
@@ -29,13 +51,22 @@ export interface IGenreDetails {
 
 export interface IMovieResponse {
 	page: number;
-	results: [IMovieDetail];
+	results: IMovieDetail[];
 	total_pages: number;
 	total_results: number;
 }
 
 export interface IGenreResponse {
-	genres: [IGenreDetails];
+	genres: IGenreDetails[];
+}
+
+export interface IGenreMap {
+	[key: number]: IGenreDetails;
+}
+
+export interface ISelectOption {
+	value: number;
+	label: string;
 }
 
 export const fetchMovieData = async (
@@ -63,6 +94,25 @@ export const fetchGenreData = async (
 ): Promise<IGenreResponse> => {
 	try {
 		const { data } = await axios.get<IGenreResponse>(BASE_URL + _url, {
+			headers,
+			params: {
+				..._params,
+				api_key: APP_KEY,
+			},
+		});
+		return data;
+	} catch (error) {
+		console.log(error);
+		throw new Error("Error fetching data");
+	}
+};
+
+export const fetchApiConfiguration = async (
+	_url: string,
+	_params?: Record<string, any>
+): Promise<IConfiguration> => {
+	try {
+		const { data } = await axios.get<IConfiguration>(BASE_URL + _url, {
 			headers,
 			params: {
 				..._params,
