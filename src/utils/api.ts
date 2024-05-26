@@ -12,6 +12,16 @@ export enum BackdropSize {
 	Original = "original",
 }
 
+export enum PosterSize {
+	w92 = "w92",
+	w154 = "w154",
+	w185 = "w185",
+	w342 = "w342",
+	w500 = "w500",
+	w780 = "w780",
+	original = "original",
+}
+
 export interface IImageConfig {
 	base_url: string;
 	secure_base_url: string;
