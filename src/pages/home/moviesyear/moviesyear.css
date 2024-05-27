@@ -13,3 +13,17 @@
 	padding-bottom: 20px;
 	border-bottom: 1px solid #222;
 }
+
+.movies_card_wrapper {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 26px;
+}
+
+.year_text {
+	font-size: 22px;
+	line-height: 19px;
+	font-weight: 500;
+	color: #fff;
+	margin: 20px 0;
+}

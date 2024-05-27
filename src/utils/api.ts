@@ -26,7 +26,7 @@ export enum PosterSize {
 	w342 = "w342",
 	w500 = "w500",
 	w780 = "w780",
-	original = "original",
+	Original = "original",
 }
 
 export interface IImageConfig {
@@ -44,6 +44,15 @@ export interface IConfiguration {
 	change_keys: string[];
 }
 
+export interface IMovieDeep {
+	movies: IMovieDetail[];
+	movieIDs: [];
+}
+
+export interface IMovieDeepDetails {
+	[year: string]: IMovieDeep[];
+}
+
 export interface IMovieDetail {
 	adult: boolean;
 	backdrop_path: string;
@@ -59,6 +68,43 @@ export interface IMovieDetail {
 	video: boolean;
 	vote_average: number;
 	vote_count: number;
+	cast?: ICast[];
+	crew?: ICrew[];
+}
+
+export interface ICast {
+	adult: Boolean;
+	gender: number;
+	id: number;
+	known_for_department: string;
+	name: string;
+	original_name: string;
+	popularity: number;
+	profile_path: string;
+	cast_id: string;
+	character: string;
+	credit_id: number;
+	order: number;
+}
+
+export interface ICrew {
+	adult: boolean;
+	gender: number;
+	id: number;
+	known_for_department: string;
+	name: string;
+	original_name: string;
+	popularity: number;
+	profile_path: string;
+	credit_id: number;
+	department: string;
+	job: string;
+}
+
+export interface IMovieID {
+	id: number;
+	cast: ICast[];
+	crew: ICrew[];
 }
 
 export interface IGenreDetails {
