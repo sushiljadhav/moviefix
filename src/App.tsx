@@ -29,9 +29,11 @@ function App() {
 	);
 	const [genresMap, setGenresMap] = useState<IGenreMap | null>(null);
 
-	//* fetch genres
+	// fetch genres
+
 	const { data, loading } = useFetchGenre("/genre/movie/list");
-	//* fetch configuration
+	// fetch configuration
+
 	const { configurationData, configurationLoading } =
 		useFetchConfiguration("/configuration");
 
@@ -47,7 +49,7 @@ function App() {
 		}, {} as IGenreMap);
 	};
 
-	//* set genres to genres state and configuration to configuration state
+	// set genres to genres state and configuration to configuration state
 	useEffect(() => {
 		if (data?.genres) {
 			console.log("dataGenres", data?.genres);
@@ -63,9 +65,9 @@ function App() {
 		}
 	}, [data, loading, configurationData, configurationLoading]);
 
-	//* set the genres data in redux store
+	//set the genres data in redux store
 	dispatch(getGenres(genresMap));
-	//* set the configuration data in redux store
+	//set the configuration data in redux store
 	dispatch(apiConfiguration(configuration?.images));
 
 	const _params: IParams = {

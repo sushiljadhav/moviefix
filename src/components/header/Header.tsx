@@ -1,14 +1,38 @@
+import React from "react";
 import logo from "../../assets/images/logo.svg";
 import { FaSearch } from "react-icons/fa";
 import "./header.css";
 import Wrapper from "../global/wrapper/Wrapper";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 
 function Header() {
+	const [lastScrollY, setLastScrollY] = useState<number>(0);
 	const [searchQuery, setSearchQuery] = useState<string>("");
+	const [show, setShow] = useState<string>("top");
+	const location = useLocation();
 
 	const navigate = useNavigate();
+	const scrollHandler = () => {
+		if (window.scrollY > 200) {
+			if (window.scrollY > lastScrollY) {
+				setShow("hide");
+			} else {
+				setShow("show");
+			}
+		} else {
+			setShow("top");
+		}
+		setLastScrollY(window.scrollY);
+		console.log("sushil", window.scrollY);
+	};
+
+	useEffect(() => {
+		window.addEventListener("scroll", scrollHandler);
+		return () => {
+			window.removeEventListener("scroll", scrollHandler);
+		};
+	}, [lastScrollY]);
 
 	const queryHandler = (
 		event:
@@ -27,7 +51,7 @@ function Header() {
 	};
 
 	return (
-		<header className="header">
+		<header className={`header ${show}`}>
 			<Wrapper>
 				<div className="header_content">
 					<div className="logo">
