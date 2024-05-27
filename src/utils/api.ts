@@ -70,6 +70,8 @@ export interface IMovieDetail {
 	vote_count: number;
 	cast?: ICast[];
 	crew?: ICrew[];
+	castNames?: string[];
+	directorNames?: string[];
 }
 
 export interface ICast {
@@ -101,7 +103,7 @@ export interface ICrew {
 	job: string;
 }
 
-export interface IMovieID {
+export interface ICredit {
 	id: number;
 	cast: ICast[];
 	crew: ICrew[];
@@ -183,6 +185,31 @@ export const fetchApiConfiguration = async (
 			},
 		});
 		return data;
+	} catch (error) {
+		console.log(error);
+		throw new Error("Error fetching data");
+	}
+};
+
+export const fetchCreditDetails = async (
+	_movieIds: number[]
+): Promise<ICredit[]> => {
+	try {
+		const promises = _movieIds.map(async (id: number) => {
+			const data = await axios.get<ICredit>(
+				`${BASE_URL}/movie/${id}/credits`,
+				{
+					headers,
+					params: {
+						api_key: APP_KEY,
+					},
+				}
+			);
+			return data.data;
+		});
+
+		const credits = await Promise.all(promises);
+		return credits;
 	} catch (error) {
 		console.log(error);
 		throw new Error("Error fetching data");

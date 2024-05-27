@@ -1,4 +1,4 @@
-import React from "react";
+import React, { StrictMode } from "react";
 import Banner from "./banner/Banner";
 import Genres from "../../components/genres/Genres";
 import "./home.css";
@@ -9,7 +9,6 @@ function Home() {
 			<Banner></Banner>
 			<Genres></Genres>
 			<MoviesYear></MoviesYear>
-			<div style={{ height: 1000 }}></div>
 		</main>
 	);
 }
