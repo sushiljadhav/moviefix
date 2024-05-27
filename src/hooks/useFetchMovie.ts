@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { IMovieResponse, fetchMovieData } from "../utils/api";
+import { IMovieResponse, IParams, fetchMovieData } from "../utils/api";
 
-const useFetchMovie = (_url: string) => {
+const useFetchMovie = (_url: string, params?: IParams) => {
 	const [loading, setLoading] = useState<string | null | Boolean>(null);
 	const [data, setData] = useState<IMovieResponse | null>(null);
 	const [error, setError] = useState<string | null>(null);
@@ -11,7 +11,7 @@ const useFetchMovie = (_url: string) => {
 		setData(null);
 		setError(null);
 
-		fetchMovieData(_url)
+		fetchMovieData(_url, params)
 			.then((_res: IMovieResponse) => {
 				setLoading(false);
 				setData(_res);

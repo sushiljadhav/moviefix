@@ -5,6 +5,13 @@ const APP_KEY = import.meta.env.VITE_APP_API;
 
 const headers = {};
 
+export interface IParams {
+	sort_by: string;
+	primary_release_year: number;
+	page: number;
+	"vote_count.gte": number;
+}
+
 export enum BackdropSize {
 	W300 = "w300",
 	W780 = "w780",

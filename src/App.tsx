@@ -14,13 +14,6 @@ import useFetchConfiguration from "./hooks/useFetchConfiguration";
 
 import "./App.css";
 
-interface IParams {
-	sort_by: string;
-	primary_release_year: number;
-	page: number;
-	"vote_count.gte": number;
-}
-
 function App() {
 	const dispatch = useDispatch();
 
@@ -69,13 +62,6 @@ function App() {
 	dispatch(getGenres(genresMap));
 	//set the configuration data in redux store
 	dispatch(apiConfiguration(configuration?.images));
-
-	const _params: IParams = {
-		sort_by: "popularity.desc",
-		primary_release_year: 2023,
-		page: 2,
-		"vote_count.gte": 100,
-	};
 
 	return (
 		<BrowserRouter>

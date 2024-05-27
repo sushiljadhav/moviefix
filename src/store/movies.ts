@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { IImageConfig, IMovieResponse } from "../utils/api";
+import { IImageConfig } from "../utils/api";
 
 interface ImovieState {
 	url: IImageConfig;
