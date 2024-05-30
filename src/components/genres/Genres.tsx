@@ -27,7 +27,7 @@ function Genres() {
 		});
 	};
 
-	console.log("selectedGenre", selectedGenre);
+	// console.log("selectedGenre", selectedGenre);
 
 	useEffect(() => {
 		if (genres) {
@@ -35,7 +35,6 @@ function Genres() {
 			setGenreOptions(convertedGenres);
 		}
 	}, [genres]);
-	console.log("Genres", genres);
 	return (
 		<div className="genres">
 			<Wrapper>

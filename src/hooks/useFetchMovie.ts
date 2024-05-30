@@ -2,12 +2,12 @@ import { useEffect, useState } from "react";
 import { IMovieResponse, IParams, fetchMovieData } from "../utils/api";
 
 const useFetchMovie = (_url: string, params?: IParams) => {
-	const [loading, setLoading] = useState<string | null | Boolean>(null);
+	const [loading, setLoading] = useState<boolean>(false);
 	const [data, setData] = useState<IMovieResponse | null>(null);
 	const [error, setError] = useState<string | null>(null);
 
 	useEffect(() => {
-		setLoading("loading...");
+		setLoading(true);
 		setData(null);
 		setError(null);
 
@@ -20,7 +20,7 @@ const useFetchMovie = (_url: string, params?: IParams) => {
 				setLoading(false);
 				setError("Error Ocurred");
 			});
-	}, [_url]);
+	}, [_url, params]);
 
 	return { data, loading, error };
 };

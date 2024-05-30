@@ -7,10 +7,15 @@ const headers = {};
 
 export interface IParams {
 	sort_by: string;
-	primary_release_year: number;
+	primary_release_year: number[] | number;
 	page: number;
 	"vote_count.gte": number;
 }
+
+export type DebouncedFunction = {
+	(): void;
+	_tId?: number;
+};
 
 export enum BackdropSize {
 	W300 = "w300",
@@ -72,6 +77,7 @@ export interface IMovieDetail {
 	crew?: ICrew[];
 	castNames?: string[];
 	directorNames?: string[];
+	year?: number;
 }
 
 export interface ICast {
@@ -87,6 +93,25 @@ export interface ICast {
 	character: string;
 	credit_id: number;
 	order: number;
+}
+
+export interface DirectorProps {
+	director: string[];
+	castLimit: number;
+}
+
+export interface CastProps {
+	castNames: string[];
+	castLimit: number;
+}
+
+export interface GenresIDS {
+	genresID: string[];
+}
+
+export interface GenresProps {
+	genresIds: number[];
+	genresLimit: number;
 }
 
 export interface ICrew {
@@ -133,25 +158,6 @@ export interface ISelectOption {
 	value: number;
 	label: string;
 }
-
-export const fetchMovieData = async (
-	_url: string,
-	_params?: Record<string, any>
-): Promise<IMovieResponse> => {
-	try {
-		const { data } = await axios.get<IMovieResponse>(BASE_URL + _url, {
-			headers,
-			params: {
-				..._params,
-				api_key: APP_KEY,
-			},
-		});
-		return data;
-	} catch (error) {
-		console.log(error);
-		throw new Error("Error fetching data");
-	}
-};
 
 export const fetchGenreData = async (
 	_url: string,
@@ -210,6 +216,52 @@ export const fetchCreditDetails = async (
 
 		const credits = await Promise.all(promises);
 		return credits;
+	} catch (error) {
+		console.log(error);
+		throw new Error("Error fetching data");
+	}
+};
+
+export const fetchYearsWiseMovies = async (
+	_movieYear: number[],
+	_params?: Record<string, any>
+): Promise<IMovieResponse[]> => {
+	try {
+		const promises = _movieYear.map(async (year: number) => {
+			console.log("apiYear", year);
+			const data = await axios.get<IMovieResponse>(
+				`${BASE_URL}/discover/movie?primary_release_year=${year}&sort_by=popularity.desc&page=1&vote_count.gte=100`,
+				{
+					headers,
+					params: {
+						api_key: APP_KEY,
+					},
+				}
+			);
+			return data.data;
+		});
+
+		const allMovies = await Promise.all(promises);
+		return allMovies;
+	} catch (error) {
+		console.log(error);
+		throw new Error("Error fetching data");
+	}
+};
+
+export const fetchMovieData = async (
+	_url: string,
+	_params?: Record<string, any>
+): Promise<IMovieResponse> => {
+	try {
+		const { data } = await axios.get<IMovieResponse>(BASE_URL + _url, {
+			headers,
+			params: {
+				..._params,
+				api_key: APP_KEY,
+			},
+		});
+		return data;
 	} catch (error) {
 		console.log(error);
 		throw new Error("Error fetching data");

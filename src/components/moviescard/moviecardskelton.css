@@ -1,3 +1,9 @@
+.movie_skelton_wrapper {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
 .movie_skelton_card {
 	height: 577px;
 	max-width: 279px;

@@ -7,7 +7,7 @@ import {
 
 const useFetchConfiguration = (_url: string) => {
 	const [configurationLoading, setconfigurationLoading] = useState<
-		string | null | Boolean
+		string | null | boolean
 	>(null);
 	const [configurationData, setconfigurationData] =
 		useState<IConfiguration | null>(null);

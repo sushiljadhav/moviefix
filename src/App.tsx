@@ -45,7 +45,6 @@ function App() {
 	// set genres to genres state and configuration to configuration state
 	useEffect(() => {
 		if (data?.genres) {
-			console.log("dataGenres", data?.genres);
 			setGenresMap(convertGenresArrayToMap(data?.genres));
 		} else {
 			setGenresMap(null);
