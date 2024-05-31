@@ -2,15 +2,13 @@ import { useEffect, useState } from "react";
 import { ICredit, fetchCreditDetails } from "../utils/api";
 
 const useFetchCredit = (_movieIds: number[]) => {
-	const [creditLoading, setCreditLoading] = useState<string | null | Boolean>(
-		null
-	);
-	const [creditData, setCreditData] = useState<ICredit[] | null>(null);
+	const [creditLoading, setCreditLoading] = useState<boolean>(true);
+	const [creditData, setCreditData] = useState<ICredit[] | []>([]);
 	const [error, setError] = useState<string | null>(null);
 
 	useEffect(() => {
-		setCreditLoading("creditLoading...");
-		setCreditData(null);
+		setCreditLoading(true);
+		setCreditData([]);
 		setError(null);
 
 		if (_movieIds) {

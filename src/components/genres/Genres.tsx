@@ -27,8 +27,6 @@ function Genres() {
 		});
 	};
 
-	// console.log("selectedGenre", selectedGenre);
-
 	useEffect(() => {
 		if (genres) {
 			const convertedGenres = convertGenresToOptions(genres);

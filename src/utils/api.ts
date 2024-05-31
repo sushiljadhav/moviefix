@@ -7,7 +7,7 @@ const headers = {};
 
 export interface IParams {
 	sort_by: string;
-	primary_release_year: number[] | number;
+	primary_release_year: number;
 	page: number;
 	"vote_count.gte": number;
 }
@@ -78,6 +78,11 @@ export interface IMovieDetail {
 	castNames?: string[];
 	directorNames?: string[];
 	year?: number;
+	release_year?: number;
+}
+
+export interface IYearMovies {
+	[year: number]: IMovieDetail[];
 }
 
 export interface ICast {
@@ -137,6 +142,11 @@ export interface ICredit {
 export interface IGenreDetails {
 	id: number;
 	name: string;
+}
+
+export interface IYearWiseMovies {
+	year: number;
+	movies: IMovieDetail[];
 }
 
 export interface IMovieResponse {
@@ -228,7 +238,6 @@ export const fetchYearsWiseMovies = async (
 ): Promise<IMovieResponse[]> => {
 	try {
 		const promises = _movieYear.map(async (year: number) => {
-			console.log("apiYear", year);
 			const data = await axios.get<IMovieResponse>(
 				`${BASE_URL}/discover/movie?primary_release_year=${year}&sort_by=popularity.desc&page=1&vote_count.gte=100`,
 				{

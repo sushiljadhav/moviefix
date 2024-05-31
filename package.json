@@ -11,8 +11,10 @@
 	},
 	"dependencies": {
 		"@reduxjs/toolkit": "^1.9.1",
+		"@smakss/react-scroll-direction": "^4.1.0",
 		"@types/react-redux": "^7.1.33",
 		"axios": "^1.2.2",
+		"lodash": "^4.17.21",
 		"react-circular-progressbar": "^2.1.0",
 		"react-dom": "^18.2.0",
 		"react-icons": "^4.7.1",
@@ -25,6 +27,7 @@
 		"sass": "^1.57.1"
 	},
 	"devDependencies": {
+		"@types/lodash": "^4.17.4",
 		"@types/react": "^18.2.66",
 		"@types/react-dom": "^18.2.22",
 		"@types/react-lazy-load-image-component": "^1.6.4",

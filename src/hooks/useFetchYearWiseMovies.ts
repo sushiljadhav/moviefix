@@ -38,7 +38,7 @@ const useFetchYearWiseMovies = (_years: number[], _params?: IParams) => {
 	};
 
 	useEffect(() => {
-		setYearsMoviesLoading("creditLoading...");
+		setYearsMoviesLoading(false);
 		setYearsMoviesData(null);
 		setError(null);
 

@@ -7,7 +7,7 @@ const useFetchMovie = (_url: string, params?: IParams) => {
 	const [error, setError] = useState<string | null>(null);
 
 	useEffect(() => {
-		setLoading(true);
+		setLoading(false);
 		setData(null);
 		setError(null);
 

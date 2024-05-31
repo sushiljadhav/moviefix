@@ -16,6 +16,9 @@ function LazyLoadImages({ src, className, alt }: LazyLoadImagesProps) {
 			effect="blur"
 			src={src}
 		/>
+		// <>
+		// 	<img src={src} alt="" />
+		// </>
 	);
 }
 
