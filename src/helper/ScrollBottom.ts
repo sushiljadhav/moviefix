@@ -7,6 +7,7 @@ const ScrollBottom = (
 		if (entry.isIntersecting) {
 			callback();
 			observer.unobserve(entry.target);
+			window.scrollTo({ top: 500, behavior: "smooth" });
 		}
 	}, options);
 

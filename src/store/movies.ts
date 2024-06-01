@@ -1,9 +1,10 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { IImageConfig } from "../utils/api";
 
 interface ImovieState {
 	url: IImageConfig;
 	genres: readonly [];
+	selectedGenres: number[];
 }
 
 const initialState: ImovieState = {
@@ -17,6 +18,7 @@ const initialState: ImovieState = {
 		still_sizes: [],
 	},
 	genres: [],
+	selectedGenres: [],
 };
 
 export const moviesSlice = createSlice({
@@ -29,9 +31,13 @@ export const moviesSlice = createSlice({
 		getGenres: (state, action) => {
 			state.genres = action.payload;
 		},
+		setStoreSelectedGenre: (state, action) => {
+			state.selectedGenres = action.payload;
+		},
 	},
 });
 
-export const { apiConfiguration, getGenres } = moviesSlice.actions;
+export const { apiConfiguration, getGenres, setStoreSelectedGenre } =
+	moviesSlice.actions;
 
 export default moviesSlice.reducer;

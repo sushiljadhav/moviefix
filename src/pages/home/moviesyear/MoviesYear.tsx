@@ -18,6 +18,7 @@ import "./moviesyear.css";
 
 import MoviesCard from "../../../components/moviescard/MoviesCard";
 import ScrollTop from "../../../helper/ScrollTop";
+import { useTypedSelector } from "../../../hooks/useSelector";
 
 let firstLoad = false;
 
@@ -31,7 +32,10 @@ function MoviesYear() {
 		primary_release_year: 2012,
 		page: 1,
 		"vote_count.gte": 100,
+		with_genres: "",
 	});
+
+	const { selectedGenres } = useTypedSelector((state) => state.movies);
 
 	const [year, setYear] = useState<number>(params.primary_release_year);
 	const [movieIds, setMovieIds] = useState<number[]>([]);
@@ -53,13 +57,13 @@ function MoviesYear() {
 	const lastMovieCard = useRef<HTMLDivElement | null>(null);
 
 	const loadMoreItems = () => {
-		if (!loading) {
+		if (!loading && !creditLoading) {
 			setYear((prevYear) => Math.min(prevYear + 1, NextYearLimit));
 		}
 	};
 
 	const loadMoreItemsAtTop = () => {
-		if (!loading) {
+		if (!loading && !creditLoading) {
 			setYear((prevYear) => Math.max(prevYear - 1, prevYearLimit));
 		}
 	};
@@ -80,18 +84,16 @@ function MoviesYear() {
 	}, [movieGroupByYear]);
 
 	useEffect(() => {
-		if (lastMovieCard.current) {
+		if (lastMovieCard.current && !loading) {
 			scrollBottom(lastMovieCard, loadMoreItems, {
 				threshold: [0.4, 0.8],
 			});
 		}
 
-		console.log("moviescard", cardWrapper);
-
 		if (firstLoad == true) {
-			if (cardWrapper.current) {
+			if (cardWrapper.current && !loading) {
 				ScrollTop(cardWrapper, loadMoreItemsAtTop, {
-					threshold: 0.5,
+					threshold: [0.4, 0.8],
 				});
 			}
 		}
@@ -99,20 +101,60 @@ function MoviesYear() {
 		firstLoad = true;
 	}, [yearWiseMovies]);
 
+	const genreHandler = (selectedGenres: number[]) => {
+		if (selectedGenres) {
+			let genresString = "";
+			if (selectedGenres.length > 0) {
+				if (selectedGenres) {
+					if (selectedGenres.length > 1) {
+						genresString = selectedGenres.join(",");
+					} else {
+						genresString = selectedGenres.toString();
+					}
+				}
+			}
+
+			return genresString;
+		}
+	};
+
 	const throttledFetchData = useRef(
-		throttle((year: number) => {
-			setParams((prevParams) => ({
-				...prevParams,
-				primary_release_year: year,
-			}));
+		throttle((year: number, selectedGenres?: string) => {
+			if (selectedGenres) {
+				if (selectedGenres) {
+					setParams((prevParams) => ({
+						...prevParams,
+						primary_release_year: year,
+						with_genres: selectedGenres,
+					}));
+				}
+			} else {
+				setParams((prevParams) => ({
+					...prevParams,
+					primary_release_year: year,
+				}));
+			}
 		}, 200)
 	);
 
 	useEffect(() => {
 		if (year >= prevYearLimit && year <= NextYearLimit) {
-			throttledFetchData.current(year);
+			let genresList = genreHandler(selectedGenres);
+			if (selectedGenres.length > 0) {
+				throttledFetchData.current(year, genresList);
+			} else {
+				throttledFetchData.current(year);
+			}
 		}
-	}, [year]);
+	}, [year, selectedGenres]);
+
+	useEffect(() => {
+		let genresList = genreHandler(selectedGenres);
+		if (genresList) {
+			setYearWiseMovies([]);
+			throttledFetchData.current(year, genresList);
+		}
+	}, [selectedGenres]);
 
 	useEffect(() => {
 		if (data?.results) {
@@ -138,6 +180,13 @@ function MoviesYear() {
 					<h2 className="heading" ref={cardWrapper}>
 						Movies
 					</h2>
+					<div className="empty-sect">
+						<div className="dotsCss">
+							<div className="dot"></div>
+							<div className="dot"></div>
+							<div className="dot"></div>
+						</div>
+					</div>
 				</div>
 				<div className="movies_section" ref={containerRef}>
 					{yearWiseMovies?.map((yearMovies, index) => (
@@ -148,24 +197,30 @@ function MoviesYear() {
 						>
 							<h2 className="year_text">{yearMovies?.year}</h2>
 							<div className="movies_card_wrapper" key={index}>
-								{yearMovies?.movies.map(
-									(movie, index, movies) => (
-										<>
-											{loading ? (
-												<MovieCardSkelton cards={4} />
-											) : (
-												<MoviesCard
-													key={movie.id}
-													movie={movie}
-													ref={
-														movies.length ===
-														index + 1
-															? lastMovieCard
-															: null
-													}
-												/>
-											)}
-										</>
+								{loading ? (
+									<MovieCardSkelton cards={4} />
+								) : (
+									yearMovies?.movies.map(
+										(movie, index, movies) => (
+											<>
+												{loading ? (
+													<MovieCardSkelton
+														cards={index}
+													/>
+												) : (
+													<MoviesCard
+														key={movie.id}
+														movie={movie}
+														ref={
+															movies.length ===
+															index + 1
+																? lastMovieCard
+																: null
+														}
+													/>
+												)}
+											</>
+										)
 									)
 								)}
 							</div>

@@ -10,6 +10,7 @@ export interface IParams {
 	primary_release_year: number;
 	page: number;
 	"vote_count.gte": number;
+	with_genres?: string[] | number | number[] | string;
 }
 
 export type DebouncedFunction = {

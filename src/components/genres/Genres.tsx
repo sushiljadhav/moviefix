@@ -4,8 +4,11 @@ import { MultiValue, SingleValue } from "react-select";
 import { useTypedSelector } from "../../hooks/useSelector";
 import Wrapper from "../global/wrapper/Wrapper";
 import "./genres.css";
+import { useDispatch } from "react-redux";
+import { setStoreSelectedGenre } from "../../store/movies";
 
 function Genres() {
+	const dispatch = useDispatch();
 	const [genreOptions, setGenreOptions] = useState<ISelectOption[]>([]);
 	const [selectedGenre, setSelectedGenres] = useState<number[]>([]);
 	const { genres } = useTypedSelector((state) => state.movies);
@@ -33,6 +36,9 @@ function Genres() {
 			setGenreOptions(convertedGenres);
 		}
 	}, [genres]);
+
+	dispatch(setStoreSelectedGenre(selectedGenre));
+
 	return (
 		<div className="genres">
 			<Wrapper>
